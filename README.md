@@ -4,7 +4,7 @@
 This project evaluates the performance of different machine learning models using various sampling techniques on a dataset. The accuracy of each model is compared across five distinct samples.
 
 ## Author Information
-- **Name**: Trish Rustagia  
+- **Name**: Trish Rustagi
 - **Roll Number**: 102203584  
 
 ## Machine Learning Models
