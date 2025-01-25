@@ -47,9 +47,19 @@ from sklearn.metrics import accuracy_score
 ```
 
 ### Step 2: Prepare Sampling
-# Code for generating random, stratified, systematic, cluster, and bootstrap samples
-# Refer to the project code for detailed implementation.
-
+```
+sample1 = balanced_data.sample(frac=0.2, random_state=42)
+sample2 = balanced_data.groupby('Class', group_keys=False).apply(lambda x: x.sample(frac=0.2, random_state=42))
+k = len(balanced_data) // int(0.2 * len(balanced_data))
+start = np.random.randint(0, k)
+sample3 = balanced_data.iloc[start::k]
+num_clusters = 5
+cluster_labels = np.arange(len(balanced_data)) % num_clusters
+balanced_data['Cluster'] = cluster_labels
+selected_cluster = np.random.choice(num_clusters)
+sample4 = balanced_data[balanced_data['Cluster'] == selected_cluster].drop('Cluster', axis=1)
+sample5 = balanced_data.sample(n=int(0.2 * len(balanced_data)), replace=True, random_state=42)
+```
 ### Step 3: Initialize Models
 ```
 models = {
@@ -75,7 +85,7 @@ for model_name, model in models.items():
         accuracy = accuracy_score(y_test, model.predict(X_test))
         performance_metrics[model_name].append(accuracy)
 ```
-### Save Results
+### Step 5: Save Results
 ```
 results_table = pd.DataFrame(performance_metrics, index=["Sample1", "Sample2", "Sample3", "Sample4", "Sample5"])
 results_table.to_csv("model_accuracy.csv")
